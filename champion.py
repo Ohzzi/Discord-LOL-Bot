@@ -4,35 +4,35 @@ class Champion(object):
 
     @property
     def name(self):
-        return self._name
+        return self.__name
     
     @property
     def KDA(self):
-        return self._KDA
+        return self.__KDA
 
     @property
     def playedNum(self):
-        return self._playedNum
+        return self.__playedNum
     
     @property
     def WinRate(self):
-        return self._WinRate
+        return self.__WinRate
 
     @name.setter
     def name(self, name):
-        self._name = name
+        self.__name = name
 
     # Death / Kill + Assist
     @KDA.setter
     def KDA(self, KDA):
-        self._KDA = KDA
+        self.__KDA = KDA
     
     # The number of played games
     @playedNum.setter
     def playedNum(self, played):
-        self._playedNum = played
+        self.__playedNum = played
     
     # Win rate
     @WinRate.setter
     def WinRate(self, WinRate):
-        self._WinRate = WinRate
+        self.__WinRate = WinRate

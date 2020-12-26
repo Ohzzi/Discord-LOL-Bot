@@ -1,40 +1,49 @@
 class Summoner(object):
     def __init__(self, summonerName):
-        self._name = summonerName
+        self.__name = summonerName
     
     @property
     def name(self):
-        return self._name
+        return self.__name
 
     @property
     def soloRankInfo(self):
-        return self._soloRankInfo
+        return self.__soloRankInfo
     
     @property
     def subRankInfo(self):
-        return self._subRankInfo
+        return self.__subRankInfo
     
     @property
     def mostChampions(self):
-        return self._mostChampions
+        return self.__mostChampions
+
+    @property
+    def recentGames(self):
+        return self.__recentGames
 
     @name.setter
     def name(self, inputString):
-        self._name = inputString
+        self.__name = inputString
 
     # soloRankInfo and subRankInfo: a dictionary of keys ["Tier", "LP", "WinLose", "WinRate"]
     @soloRankInfo.setter
     def soloRankInfo(self, info):
-        self._soloRankInfo = info
+        self.__soloRankInfo = info
 
     @subRankInfo.setter
     def subRankInfo(self, info):
-        self._subRankInfo = info
+        self.__subRankInfo = info
 
     # mostChampions: a list of class "Champion"
     @mostChampions.setter
     def mostChampions(self, champs):
-        self._mostChampions = champs
+        self.__mostChampions = champs
+
+    # recentGames: player's recent game win / lose
+    @recentGames.setter
+    def recentGames(self, recent):
+        self.__recentGames = recent
 
     # method for testing
     def printInfo(self):
@@ -44,3 +53,4 @@ class Summoner(object):
         print('모스트 챔피언:', end=" ")
         for champ in self.mostChampions:
             print(champ.name, champ.playedNum, champ.KDA, champ.WinRate, end=" ")
+        print('최근 전적:', self.recentGames)
