@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from info import Summoner
+from champion import Champion
 
 def getSummonerInfo(name):
     # name = input("소환사명을 입력하세요: ")
@@ -19,9 +20,9 @@ def getSummonerInfo(name):
     summoner.soloRankInfo = getSummonerSoloRank(soup)
     summoner.subRankInfo = getSummonerSubRank(soup)
     summoner.mostChampions = getSummonerMost(soup)
+    # summoner.printInfo()
 
     return summoner
-    # summoner.printInfo()
 
 def getSummonerSoloRank(soup):
     # make dictionary with solo rank info
@@ -54,6 +55,13 @@ def getSummonerSubRank(soup):
 
 def getSummonerMost(soup):
     champions = []
-    for i in soup.select('div.MostChampionContent > div.ChampionBox > div.ChampionInfo > div.ChampionName > a'):
-        champions.append(i.text.strip())
+    for idx, value in enumerate(soup.select('div.MostChampionContent > div.ChampionBox > div.ChampionInfo > div.ChampionName > a')):
+        champ = Champion()
+        champ.name = value.text.strip()
+        champ.KDA = soup.select('div.MostChampionContent > div.ChampionBox > div.PersonalKDA > div.KDA > span.KDA')[idx].text.strip()
+        champ.WinRate = soup.select('div.MostChampionContent > div.ChampionBox > div.Played > div.WinRatio')[idx].text.strip()
+        champ.playedNum = soup.select('div.MostChampionContent > div.ChampionBox > div.Played > div.Title')[idx].text.strip()
+        champions.append(champ)
+        if len(champions) == 3:
+            return champions
     return champions
