@@ -20,6 +20,7 @@ def getSummonerInfo(name):
     summoner.soloRankInfo = getSummonerSoloRank(soup)
     summoner.subRankInfo = getSummonerSubRank(soup)
     summoner.mostChampions = getSummonerMost(soup)
+    summoner.recentGames = getRecent(soup)
     # summoner.printInfo()
 
     return summoner
@@ -65,3 +66,9 @@ def getSummonerMost(soup):
         if len(champions) == 3:
             return champions
     return champions
+
+def getRecent(soup):
+    total = soup.select('div.WinRatioTitle > span.total')[0].text.strip()
+    win = soup.select('div.WinRatioTitle > span.win')[0].text.strip()
+    lose = soup.select('div.WinRatioTitle > span.lose')[0].text.strip()
+    return f'{total}전 {win}승 {lose}패'

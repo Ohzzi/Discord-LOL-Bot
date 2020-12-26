@@ -39,7 +39,7 @@ def createEmbed(summoner):
     else:
         embed.add_field(name = "자유 랭크", value = f'{summoner.subRankInfo["Tier"]} {summoner.subRankInfo["LP"]}\
         \n{summoner.subRankInfo["WinLose"]} {summoner.subRankInfo["WinRate"]}', inline=True)
-    embed.add_field(name = "모스트 챔피언", value = "시즌 2020", inline=False)
+    embed.add_field(name = "최근 전적", value = f'{summoner.recentGames}', inline=False)
     if len(summoner.mostChampions) != 0:
         for idx, champ in enumerate(summoner.mostChampions):
             embed.add_field(name = f'모스트{idx+1}', value = f'{champ.name}\n{champ.playedNum} {champ.WinRate}\n{champ.KDA}', inline=True)
