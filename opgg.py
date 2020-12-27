@@ -21,6 +21,7 @@ def getSummonerInfo(name):
     summoner.subRankInfo = getSummonerSubRank(soup)
     summoner.mostChampions = getSummonerMost(soup)
     summoner.recentGames = getRecent(soup)
+    summoner.medal = getMedal(soup)
     # summoner.printInfo()
 
     return summoner
@@ -61,7 +62,7 @@ def getSummonerMost(soup):
         champ.name = value.text.strip()
         champ.KDA = soup.select('div.MostChampionContent > div.ChampionBox > div.PersonalKDA > div.KDA > span.KDA')[idx].text.strip()
         champ.WinRate = soup.select('div.MostChampionContent > div.ChampionBox > div.Played > div.WinRatio')[idx].text.strip()
-        champ.playedNum = soup.select('div.MostChampionContent > div.ChampionBox > div.Played > div.Title')[idx].text.strip()
+        champ.playedNum = soup.select('div.MostChampionContent > div.ChampionBox > div.Played > div.Title')[idx].text.split(' ')[0].strip() + 'G'
         champions.append(champ)
         if len(champions) == 3:
             return champions
@@ -71,4 +72,11 @@ def getRecent(soup):
     total = soup.select('div.WinRatioTitle > span.total')[0].text.strip()
     win = soup.select('div.WinRatioTitle > span.win')[0].text.strip()
     lose = soup.select('div.WinRatioTitle > span.lose')[0].text.strip()
-    return f'{total}전 {win}승 {lose}패'
+    KDA = soup.select('div.KDARatio > span.KDARatio')[0].text.strip()
+    return f'{total}전 {win}승 {lose}패 {KDA}'
+
+def getMedal(soup):
+    soloMedal = soup.select('div.Medal > img')[0].get('src')
+    return soloMedal
+
+getSummonerInfo("딱딱한천도복숭아")

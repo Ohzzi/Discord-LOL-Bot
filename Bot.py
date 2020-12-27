@@ -32,6 +32,7 @@ async def getInfo(ctx, *args):
 
 def createEmbed(summoner):
     embed = discord.Embed(title = f'{summoner.name}', color = 0xEEEEEE)
+    embed.set_thumbnail(url = f'https:{summoner.medal}')
     if summoner.soloRankInfo["Tier"] == "Unranked":
         embed.add_field(name = "솔로 랭크", value = "Unranked", inline=True)
     else:

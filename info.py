@@ -22,6 +22,10 @@ class Summoner(object):
     def recentGames(self):
         return self.__recentGames
 
+    @property
+    def medal(self):
+        return self.__medal
+
     @name.setter
     def name(self, inputString):
         self.__name = inputString
@@ -44,6 +48,10 @@ class Summoner(object):
     @recentGames.setter
     def recentGames(self, recent):
         self.__recentGames = recent
+    
+    @medal.setter
+    def medal(self, medal):
+        self.__medal = medal
 
     # method for testing
     def printInfo(self):
@@ -53,4 +61,5 @@ class Summoner(object):
         print('모스트 챔피언:', end=" ")
         for champ in self.mostChampions:
             print(champ.name, champ.playedNum, champ.KDA, champ.WinRate, end=" ")
-        print('최근 전적:', self.recentGames)
+        print('\n최근 전적:', self.recentGames)
+        print(f'메달 주소: https:{self.medal}')
