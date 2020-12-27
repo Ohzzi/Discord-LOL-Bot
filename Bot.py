@@ -19,8 +19,11 @@ async def ping(ctx):
     await ctx.send(f'pong! {round(round(bot.latency, 4)*1000)}ms')
 
 @bot.command(name="검색")
-async def getInfo(ctx, args):
-    summoner = getSummonerInfo(args)
+async def getInfo(ctx, *args):
+    name = ""
+    for arg in args:
+        name += f'{arg} '
+    summoner = getSummonerInfo(name)
     if not summoner:
         await ctx.send("유저 정보 없음")
         return
