@@ -7,6 +7,10 @@ class Summoner(object):
         return self.__name
 
     @property
+    def level(self):
+        return self.__level
+
+    @property
     def soloRankInfo(self):
         return self.__soloRankInfo
     
@@ -29,6 +33,10 @@ class Summoner(object):
     @name.setter
     def name(self, inputString):
         self.__name = inputString
+    
+    @level.setter
+    def level(self, level):
+        self.__level = level
 
     # soloRankInfo and subRankInfo: a dictionary of keys ["Tier", "LP", "WinLose", "WinRate"]
     @soloRankInfo.setter

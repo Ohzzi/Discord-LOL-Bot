@@ -14,26 +14,25 @@ def getSummonerInfo(name):
 
     # exception: If user dosen't exist
     if len(soup.select('div.l-container > div.SummonerNotFoundLayout')) > 0:
-        # print("존재하지 않는 유저입니다.")
         return None
 
+    summoner.level = getSummonerLevel(soup)
     summoner.soloRankInfo = getSummonerSoloRank(soup)
     summoner.subRankInfo = getSummonerSubRank(soup)
     summoner.mostChampions = getSummonerMost(soup)
     summoner.recentGames = getRecent(soup)
     summoner.medal = getMedal(soup)
-    # summoner.printInfo()
 
     return summoner
+
+def getSummonerLevel(soup):
+    return soup.select("span.Level")[0].text.strip()
 
 def getSummonerSoloRank(soup):
     # make dictionary with solo rank info
     info = {}
     if soup.select("div.TierRankInfo > div.unranked"):
         info["Tier"] = "Unranked"
-        info["LP"] = "Unranked"
-        info["WinLose"] = "Unranked"
-        info["WinRate"] = "Unranked"
         return info
     info['Tier'] = soup.select('div.TierRank')[0].text.strip()
     info['LP'] = f'{soup.select("div.TierInfo > span.LeaguePoints")[0].text.split("L")[0].strip()}LP'
@@ -42,7 +41,9 @@ def getSummonerSoloRank(soup):
     return info
 
 def getSummonerSubRank(soup):
+    # make dictionary with flex rank info
     info = {}
+    # if the summoner is unranked, set status "Unranked"
     if soup.select("div.sub-tier > div.unranked"):
         info["Tier"] = "Unranked"
         info["LP"] = "Unranked"
@@ -69,6 +70,7 @@ def getSummonerMost(soup):
     return champions
 
 def getRecent(soup):
+    # get summoner's recent games win, lose, kda
     total = soup.select('div.WinRatioTitle > span.total')[0].text.strip()
     win = soup.select('div.WinRatioTitle > span.win')[0].text.strip()
     lose = soup.select('div.WinRatioTitle > span.lose')[0].text.strip()
@@ -76,7 +78,6 @@ def getRecent(soup):
     return f'{total}전 {win}승 {lose}패 {KDA}'
 
 def getMedal(soup):
+    # get a tier medal
     soloMedal = soup.select('div.Medal > img')[0].get('src')
     return soloMedal
-
-getSummonerInfo("딱딱한천도복숭아")
