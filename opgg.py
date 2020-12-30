@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from info import Summoner
 from champion import Champion
 
-def getSummonerInfo(name):
+def getSummonerInfo(name: str) -> Summoner:
     # name = input("소환사명을 입력하세요: ")
     summoner = Summoner(name) # create a new Summoner instatnce
     url='https://www.op.gg/summoner/userName=' + name
@@ -16,6 +16,7 @@ def getSummonerInfo(name):
     if len(soup.select('div.l-container > div.SummonerNotFoundLayout')) > 0:
         return None
 
+    # get summoner's info frop the object "soup", and then set summoner's property
     summoner.level = getSummonerLevel(soup)
     summoner.soloRankInfo = getSummonerSoloRank(soup)
     summoner.subRankInfo = getSummonerSubRank(soup)
@@ -25,11 +26,11 @@ def getSummonerInfo(name):
 
     return summoner
 
-def getSummonerLevel(soup):
+def getSummonerLevel(soup) -> str:
     return soup.select("span.Level")[0].text.strip()
 
-def getSummonerSoloRank(soup):
-    # make dictionary with solo rank info
+def getSummonerSoloRank(soup) -> dict:
+    # make a dictionary of solorank info
     info = {}
     if soup.select("div.TierRankInfo > div.unranked"):
         info["Tier"] = "Unranked"
@@ -40,8 +41,8 @@ def getSummonerSoloRank(soup):
     info['WinRate'] = soup.select("span.winratio")[0].text.strip().split(" ")[2]
     return info
 
-def getSummonerSubRank(soup):
-    # make dictionary with flex rank info
+def getSummonerSubRank(soup) -> dict:
+    # make a dictionary of flexrank info
     info = {}
     # if the summoner is unranked, set status "Unranked"
     if soup.select("div.sub-tier > div.unranked"):
@@ -56,7 +57,8 @@ def getSummonerSubRank(soup):
     info['WinRate'] = soup.select('div.sub-tier__gray-text')[0].text.strip().split(" ")[2]
     return info
 
-def getSummonerMost(soup):
+def getSummonerMost(soup) -> list:
+    # make a list of champions
     champions = []
     for idx, value in enumerate(soup.select('div.MostChampionContent > div.ChampionBox > div.ChampionInfo > div.ChampionName > a')):
         champ = Champion()
@@ -65,11 +67,12 @@ def getSummonerMost(soup):
         champ.WinRate = soup.select('div.MostChampionContent > div.ChampionBox > div.Played > div.WinRatio')[idx].text.strip()
         champ.playedNum = soup.select('div.MostChampionContent > div.ChampionBox > div.Played > div.Title')[idx].text.split(' ')[0].strip() + 'G'
         champions.append(champ)
+        # return most 3 champions
         if len(champions) == 3:
             return champions
     return champions
 
-def getRecent(soup):
+def getRecent(soup) -> str:
     # get summoner's recent games win, lose, kda
     total = soup.select('div.WinRatioTitle > span.total')[0].text.strip()
     win = soup.select('div.WinRatioTitle > span.win')[0].text.strip()
@@ -77,7 +80,8 @@ def getRecent(soup):
     KDA = soup.select('div.KDARatio > span.KDARatio')[0].text.strip()
     return f'{total}전 {win}승 {lose}패 {KDA}'
 
-def getMedal(soup):
+def getMedal(soup) -> str:
     # get a tier medal
     soloMedal = soup.select('div.Medal > img')[0].get('src')
+    # return url of the medal
     return soloMedal

@@ -24,20 +24,24 @@ async def getInfo(ctx, *args):
     for arg in args:
         name += f'{arg} '
     summoner = getSummonerInfo(name)
+    # if cannot find a summoner, return
     if not summoner:
         await ctx.send("유저 정보 없음")
         return
-    # summoner.printInfo()
+    # send an embed msg with info
     await ctx.send(embed = createEmbed(summoner))
 
 def createEmbed(summoner):
+    # create an embed msg contains summoner's info
     embed = discord.Embed(title = f'{summoner.name}', description = f'Lv.{summoner.level}', color = 0xEEEEEE)
     embed.set_thumbnail(url = f'https:{summoner.medal}')
+    # logic deals with unranked user: solorank
     if summoner.soloRankInfo["Tier"] == "Unranked":
         embed.add_field(name = "솔로 랭크", value = "Unranked", inline=True)
     else:
         embed.add_field(name = "솔로 랭크", value = f'{summoner.soloRankInfo["Tier"]} {summoner.soloRankInfo["LP"]}\
         \n{summoner.soloRankInfo["WinLose"]} {summoner.soloRankInfo["WinRate"]}', inline=True)
+    # logic deals with unranked user: flexrank
     if summoner.subRankInfo["Tier"] == "Unranked":
         embed.add_field(name = "자유 랭크", value = "Unranked", inline=True)
     else:

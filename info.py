@@ -1,5 +1,5 @@
 class Summoner(object):
-    def __init__(self, summonerName):
+    def __init__(self, summonerName: str):
         self.__name = summonerName
     
     @property
@@ -31,43 +31,32 @@ class Summoner(object):
         return self.__medal
 
     @name.setter
-    def name(self, inputString):
-        self.__name = inputString
+    def name(self, name: str):
+        self.__name = name
     
     @level.setter
-    def level(self, level):
+    def level(self, level: str):
         self.__level = level
 
     # soloRankInfo and subRankInfo: a dictionary of keys ["Tier", "LP", "WinLose", "WinRate"]
     @soloRankInfo.setter
-    def soloRankInfo(self, info):
+    def soloRankInfo(self, info: dict):
         self.__soloRankInfo = info
 
     @subRankInfo.setter
-    def subRankInfo(self, info):
+    def subRankInfo(self, info: dict):
         self.__subRankInfo = info
 
     # mostChampions: a list of class "Champion"
     @mostChampions.setter
-    def mostChampions(self, champs):
+    def mostChampions(self, champs: list):
         self.__mostChampions = champs
 
     # recentGames: player's recent game win / lose
     @recentGames.setter
-    def recentGames(self, recent):
+    def recentGames(self, recent: str):
         self.__recentGames = recent
     
     @medal.setter
-    def medal(self, medal):
+    def medal(self, medal: str):
         self.__medal = medal
-
-    # method for testing
-    def printInfo(self):
-        print(f'소환사명: {self.name}')
-        print(f'솔로 랭크: {self.soloRankInfo["Tier"]} {self.soloRankInfo["LP"]} {self.soloRankInfo["WinLose"]} 승률 {self.soloRankInfo["WinRate"]}')
-        print(f'자유 랭크: {self.subRankInfo["Tier"]} {self.subRankInfo["LP"]} {self.subRankInfo["WinLose"]} 승률 {self.subRankInfo["WinRate"]}')
-        print('모스트 챔피언:', end=" ")
-        for champ in self.mostChampions:
-            print(champ.name, champ.playedNum, champ.KDA, champ.WinRate, end=" ")
-        print('\n최근 전적:', self.recentGames)
-        print(f'메달 주소: https:{self.medal}')
